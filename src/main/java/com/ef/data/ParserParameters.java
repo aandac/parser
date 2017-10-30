@@ -7,6 +7,8 @@ import org.apache.commons.cli.*;
  */
 public class ParserParameters {
 
+    private String accessLog;
+
     private String startDate;
 
     private String duration;
@@ -17,10 +19,12 @@ public class ParserParameters {
         try {
             CommandLineParser parser = new DefaultParser();
             Options options = new Options();
+            options.addRequiredOption("a", "accesslog", true, "Access Log");
             options.addRequiredOption("s", "startDate", true, "Start Date");
             options.addRequiredOption("d", "duration", true, "Duration");
             options.addRequiredOption("t", "threshold", true, "Threshold");
             CommandLine cmd = parser.parse(options, args);
+            accessLog = cmd.getOptionValue("accesslog");
             startDate = cmd.getOptionValue("startDate");
             duration = cmd.getOptionValue("duration");
             threshold = Integer.valueOf(cmd.getOptionValue("threshold"));
@@ -29,10 +33,15 @@ public class ParserParameters {
         }
     }
 
-    public ParserParameters(String startDate, String duration, int threshold) {
+    public ParserParameters(String accessLog, String startDate, String duration, int threshold) {
+        this.accessLog = accessLog;
         this.startDate = startDate;
         this.duration = duration;
         this.threshold = threshold;
+    }
+
+    public String getAccessLog() {
+        return accessLog;
     }
 
     public String getStartDate() {

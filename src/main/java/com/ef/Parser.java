@@ -23,7 +23,7 @@ public class Parser {
         // parse the log file and find the blocked ip list with the given criteria
         LogFileReader fileReader = new LogFileReader();
         int threshold = parameters.getThreshold();
-        List<BlockedIp> blockedIps = fileReader.readLogFile(parameters.getStartDate(), parameters.getDuration(), threshold);
+        List<BlockedIp> blockedIps = fileReader.readLogFile(parameters.getAccessLog(), parameters.getStartDate(), parameters.getDuration(), threshold);
 
         // Print the blocked ip list
         blockedIps.forEach(ip -> System.out.println(ip.getReason(threshold)));

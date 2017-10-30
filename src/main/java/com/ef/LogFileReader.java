@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
- * Class for reading access information from the access.log file.
+ * Class for reading access information from the testaccess.log file.
  * Extracts the blocked ip list.
  *
  * @author alian
@@ -27,9 +27,9 @@ public class LogFileReader {
      * @param threshold      threshold access count
      * @return list of blocked ip
      */
-    public List<BlockedIp> readLogFile(String startDateInStr, String duration, int threshold) {
+    public List<BlockedIp> readLogFile(String logFilePath, String startDateInStr, String duration, int threshold) {
         BlockedIpStore store = new BlockedIpStore();
-        try (FileReader fileReader = new FileReader(new File("./access.log"))) {
+        try (FileReader fileReader = new FileReader(new File(logFilePath))) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             DateTimeFormatter dtfLogFile = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");

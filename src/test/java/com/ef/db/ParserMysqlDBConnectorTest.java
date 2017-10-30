@@ -48,7 +48,7 @@ public class ParserMysqlDBConnectorTest {
         blockedIps.add(ip3);
         ParserMysqlDBConnector connector = new ParserMysqlDBConnector();
 
-        connector.persistBlockedIp(blockedIps, new ParserParameters("2017-01-01.15:00:00", "hourly", 100));
+        connector.persistBlockedIp(blockedIps, new ParserParameters("./testaccess.log", "2017-01-01.15:00:00", "hourly", 100));
 
         try (Connection connection = MysqlConnectionFactory.createConnection();
              PreparedStatement stmt = connection.prepareStatement("SELECT * from wallethub.BLOCKED_IP where IP='192.168.1.1'")) {

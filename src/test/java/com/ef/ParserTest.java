@@ -16,7 +16,7 @@ public class ParserTest {
     @Test
     public void shouldParseTestAccessFile() {
         LogFileReader fileReader = new LogFileReader();
-        List<BlockedIp> blockedIps = fileReader.readLogFile("2017-01-01.00:00:00", "hourly", 5);
+        List<BlockedIp> blockedIps = fileReader.readLogFile(Parser.class.getClassLoader().getResource("./testaccess.log").getPath(), "2017-01-01.00:00:00", "hourly", 5);
 
         assertEquals(1, blockedIps.size());
         BlockedIp blockedIp = blockedIps.get(0);

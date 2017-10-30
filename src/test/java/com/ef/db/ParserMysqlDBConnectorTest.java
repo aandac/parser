@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author alian
@@ -28,6 +29,12 @@ public class ParserMysqlDBConnectorTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void shouldGetConnection() {
+        Connection connection = MysqlConnectionFactory.createConnection();
+        assertNotNull(connection);
     }
 
     @Test

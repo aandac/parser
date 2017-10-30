@@ -1,11 +1,9 @@
 package com.ef;
 
-import com.ef.db.MysqlConnectionFactory;
+import com.ef.data.BlockedIp;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,9 +14,13 @@ import static org.junit.Assert.assertEquals;
 public class ParserTest {
 
     @Test
-    public void test(){
-        Duration duration = Duration.of(1, ChronoUnit.DAYS);
+    public void shouldParseTestAccessFile() {
+        LogFileReader fileReader = new LogFileReader();
+        List<BlockedIp> blockedIps = fileReader.readLogFile("2017-01-01.00:00:00", "hourly", 5);
 
-        assertEquals(60*60*24,duration.getSeconds());
+        assertEquals(1, blockedIps.size());
+        BlockedIp blockedIp = blockedIps.get(0);
+        assertEquals("192.168.234.82", blockedIp.getIpAddress());
+        assertEquals(6, blockedIp.getAccessCount());
     }
 }

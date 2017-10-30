@@ -38,6 +38,8 @@ public class LogFileReader {
             long daysInSeconds = ChronoUnit.DAYS.getDuration().getSeconds();
             long hourInSeconds = ChronoUnit.HOURS.getDuration().getSeconds();
 
+            long windowInSeconds = duration.equals("hourly") ? hourInSeconds : daysInSeconds;
+
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parsedLine = line.split("\\|");
                 String dateInStr = parsedLine[0];
@@ -46,18 +48,15 @@ public class LogFileReader {
                 // compare the date
                 LocalDateTime logDate = LocalDateTime.parse(dateInStr, dtfLogFile);
 
-                // skip if the log date is lower than start date
-                // TODO ali startdate duration u asarsa da gecsin
-                if (logDate.isBefore(startDate)) {
+                // skip if the log date is not in the duration window
+                if (logDate.isBefore(startDate) || logDate.isAfter(startDate.plus(windowInSeconds, ChronoUnit.SECONDS))) {
                     continue;
                 }
 
                 Duration between = Duration.between(logDate, startDate);
                 long durationInSecond = Math.abs(between.getSeconds());
 
-                if (duration.equals("hourly") && hourInSeconds > durationInSecond) {
-                    store.addIp(ipAddress);
-                } else if (duration.equals("daily") && daysInSeconds > durationInSecond) {
+                if (windowInSeconds > durationInSecond) {
                     store.addIp(ipAddress);
                 }
             }
